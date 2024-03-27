@@ -1,30 +1,30 @@
 require("dotenv").config();
 const express = require("express");
-const db = require("./db/index");
 const app = express();
-const port = process.env.PORT;
+const mongoose = require("mongoose");
+const workoutRouter = require("./routers/workout");
+
+// Middleware Connections
 app.use(express.json());
-app.listen(port, () => {
-  console.log(`server is working on ${port}`);
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
+// Routes
+
+app.use("/api/workout", workoutRouter);
+app.get("/new", (req, res) => {
+  res.json({ hello: "Hello World!" });
 });
 
-app.get("/main", (req, res) => {
-  res.json({ status: "pass", downlaod: "true" });
-});
-
-app.get("/api/v1/allstudent", async (req, res) => {
-  const result = await db.query("SELECT * FROM client;");
-  console.log(result);
-  res.status(200).json({
-    status: "success",
-    data: { students: ["name1", "name2"] },
+// Connection
+mongoose
+  .connect(process.env.MONG_URL)
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log("App running in port: " + process.env.PORT);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
-});
-app.get("/api/v1/getstudent/:id", (req, res) => {
-  console.log(req);
-});
-
-app.post("/api/v1/addstudent", function (req, res) {
-  console.log("receiving data ...");
-  console.log("body is ", req.body);
-});
