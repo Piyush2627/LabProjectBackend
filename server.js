@@ -2,29 +2,24 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const workoutRouter = require("./routers/workout");
-
-// Middleware Connections
+const WorkoutsRouter = require("./routes/workouts");
+//middleware
 app.use(express.json());
-app.use((req, res, next) => {
+app.use;
+(req, res, next) => {
   console.log(req.path, req.method);
   next();
-});
-// Routes
+};
 
-app.use("/api/workout", workoutRouter);
-app.get("/new", (req, res) => {
-  res.json({ hello: "Hello World!" });
-});
+app.use("/api/workouts", WorkoutsRouter);
 
-// Connection
 mongoose
-  .connect(process.env.MONG_URL)
+  .connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(process.env.PORT, () => {
-      console.log("App running in port: " + process.env.PORT);
+      console.log(`listening on ${process.env.PORT}`);
     });
   })
-  .catch((err) => {
-    console.log(err);
+  .catch((error) => {
+    console.log(error);
   });
