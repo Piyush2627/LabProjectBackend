@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const attendanceSchema = new Schema({
   student: {
     type: Schema.Types.ObjectId,
-    ref: "Student",
+    ref: "studentsschemas",
     required: true,
   },
   date: {
@@ -12,9 +12,16 @@ const attendanceSchema = new Schema({
     default: Date.now,
   },
   status: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  system_used: {
     type: String,
-    enum: ["Present", "Absent", "Late"],
-    default: "Present",
+    required: true,
+  },
+  comment: {
+    type: String,
   },
 });
 

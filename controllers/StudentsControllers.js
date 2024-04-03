@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
-var ObjectId = require("mongoose").Types.ObjectId;
 const StudentsSchema = require("../model/StudentModel");
+var ObjectId = require("mongoose").Types.ObjectId;
 
 //get all students
 const getallstudents = async (req, res) => {
@@ -8,7 +7,21 @@ const getallstudents = async (req, res) => {
   res.status(200).json(students);
 };
 
+const getstudentsbatch1 = async (req, res) => {
+  const students = await StudentsSchema.find();
+};
 //get the student by id
+const getsinglestudent = async (req, res) => {
+  const { id } = req.params;
+  if (!ObjectId) {
+    return res.status(404).json({ message: "Student not found" });
+  }
+  const student = await StudentsSchema.findById(id);
+  if (!student) {
+    return res.status(404).json({ message: "Student not found" });
+  }
+  res.status(200).json(student);
+};
 
 //create a new Student Data
 const createStudent = async (req, res) => {
@@ -48,4 +61,5 @@ const createStudent = async (req, res) => {
 module.exports = {
   getallstudents,
   createStudent,
+  getsinglestudent,
 };
