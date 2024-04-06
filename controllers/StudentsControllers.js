@@ -7,9 +7,6 @@ const getallstudents = async (req, res) => {
   res.status(200).json(students);
 };
 
-const getstudentsbatch1 = async (req, res) => {
-  const students = await StudentsSchema.find();
-};
 //get the student by id
 const getsinglestudent = async (req, res) => {
   const { id } = req.params;
