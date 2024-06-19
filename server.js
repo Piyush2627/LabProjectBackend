@@ -7,7 +7,13 @@ const AttedanceRouter = require("./routes/Attendance");
 const cors = require("cors");
 
 //middleware
-app.use(cors());
+app.use(cors(
+  {
+origin: ["https://lab-project-backend-git-main-labs-projects-c89fd667.vercel.app/"],
+methods: ["POST", "GET"],
+credentials: true
+} 
+));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
